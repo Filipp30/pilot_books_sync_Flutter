@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pilot_books_sync_mobiel/models/user_registration.dart';
+import 'package:pilot_books_sync_mobiel/dto/user_registration_dto.dart';
 import 'package:pilot_books_sync_mobiel/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import '../functions/input_field_validation.dart';
@@ -149,7 +149,7 @@ class _AuthRegistrationWidgetState extends State<AuthRegistrationWidget> {
       _formKey.currentState!.save();
       setState(() => _isProcessing = true);
 
-      UserRegistration user = UserRegistration(
+      UserRegistrationDto user = UserRegistrationDto(
           name: _nameController.text,
           email: _emailController.text,
           phone: _phoneController.text,

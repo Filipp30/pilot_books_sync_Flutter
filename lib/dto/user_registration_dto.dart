@@ -1,12 +1,12 @@
 
-class UserRegistration {
+class UserRegistrationDto {
   String name;
   String email;
   String phone;
   String password;
   String confirmation;
 
-  UserRegistration({
+  UserRegistrationDto({
     required this.name,
     required this.email,
     required this.phone,

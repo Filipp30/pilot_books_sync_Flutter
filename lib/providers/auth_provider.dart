@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pilot_books_sync_mobiel/dto/http/registration_response_dto.dart';
-import 'package:pilot_books_sync_mobiel/models/user_registration.dart';
+import 'package:pilot_books_sync_mobiel/dto/user_login_dto.dart';
+import 'package:pilot_books_sync_mobiel/dto/user_registration_dto.dart';
 import 'package:pilot_books_sync_mobiel/services/api_client.dart';
+import '../dto/login_response_dto.dart';
+import '../dto/registration_response_dto.dart';
 
 class AuthProvider with ChangeNotifier {
   bool isAuthenticated = false;
@@ -10,14 +12,21 @@ class AuthProvider with ChangeNotifier {
     return true;
   }
 
-  Future<RegistrationResponseDto> registration(UserRegistration user) async {
+  Future<RegistrationResponseDto> registration(UserRegistrationDto dto) async {
     final response = await ApiClient().post(
         endpoint: Endpoint.authRegistration,
-        body: user.body
+        body: dto.body
     );
     
     return RegistrationResponseDto.fromResponse(response);
   }
 
+  Future<LoginResponseDto> login(UserLoginDto dto) async {
+    final response = await ApiClient().post(
+        endpoint: Endpoint.login,
+        body: dto.body
+    );
 
+    return LoginResponseDto.fromResponse(response);
+  }
 }
