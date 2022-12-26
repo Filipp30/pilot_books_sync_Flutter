@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pilot_books_sync_mobiel/providers/auth_provider.dart';
+import 'package:pilot_books_sync_mobiel/screens/auth_screen.dart';
+import 'package:pilot_books_sync_mobiel/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(App());
 
@@ -6,25 +10,21 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(),
-      home: HomePage(),
-      routes: {
-        HomePage.routeName: (context) => HomePage(),
-      },
-    );
-  }
-}
+    return MultiProvider(providers:
+    [
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+    ],
+      child: Consumer<AuthProvider>(
+        builder: (context, authProvider, child) => MaterialApp(
+          home: authProvider.isAuthenticated ? HomeScreen() : AuthScreen(),
 
-class HomePage extends StatelessWidget {
-  static const routeName = 'home-page';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
+          routes: {
+            AuthScreen.routeName: (context) => AuthScreen(),
+            HomeScreen.routeName: (context) => HomeScreen(),
+          },
+        ),
       ),
     );
   }
 }
+
