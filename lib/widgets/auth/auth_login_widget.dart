@@ -6,6 +6,8 @@ import '../../providers/auth_provider.dart';
 import '../functions/notifications.dart';
 
 class AuthLoginWidget extends StatefulWidget {
+  final callBack;
+  AuthLoginWidget({required this.callBack});
 
   @override
   State<AuthLoginWidget> createState() => _AuthLoginWidgetState();
@@ -71,7 +73,13 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget> {
           icon: const Icon(Icons.login),
           label: const Text('Login'),
           onPressed: () => _submit()
-      )
+      ), _sizedBox(),
+
+      TextButton.icon(
+          icon: const Icon(Icons.app_registration_sharp),
+          label: const Text('Registration'),
+          onPressed: () => widget.callBack()
+      ),
 
     ]),
     ),

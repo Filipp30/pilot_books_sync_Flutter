@@ -16,7 +16,8 @@ class App extends StatelessWidget {
     ],
       child: Consumer<AuthProvider>(
         builder: (context, authProvider, child) => MaterialApp(
-          home: authProvider.isAuthenticated ? HomeScreen() : AuthScreen(),
+          theme: ThemeData(),
+          home: AuthProvider.isAuthenticated ? HomeScreen() : AuthScreen(),
 
           routes: {
             AuthScreen.routeName: (context) => AuthScreen(),
@@ -27,4 +28,3 @@ class App extends StatelessWidget {
     );
   }
 }
-

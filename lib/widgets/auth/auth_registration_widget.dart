@@ -7,6 +7,9 @@ import '../functions/input_field_validation.dart';
 import '../functions/notifications.dart';
 
 class AuthRegistrationWidget extends StatefulWidget {
+  final callBack;
+  AuthRegistrationWidget({required this.callBack});
+
   @override
   State<AuthRegistrationWidget> createState() => _AuthRegistrationWidgetState();
 }
@@ -136,7 +139,13 @@ class _AuthRegistrationWidgetState extends State<AuthRegistrationWidget> {
             icon: const Icon(Icons.app_registration),
             label: const Text('Register'),
             onPressed: () => _submit()
-          )
+          ), _sizedBox(),
+
+          TextButton.icon(
+              icon: const Icon(Icons.login),
+              label: const Text('Login'),
+              onPressed: () => widget.callBack()
+          ),
 
         ]),
       ),
@@ -160,7 +169,7 @@ class _AuthRegistrationWidgetState extends State<AuthRegistrationWidget> {
       await Provider.of<AuthProvider>(context, listen: false)
           .registration(user)
           .then((response) => response.success
-            ? showSnackBar(context: context, message: response.message, color: Colors.green)
+            ? {showSnackBar(context: context, message: response.message, color: Colors.green), widget.callBack()}
             : showSnackBar(context: context, message: response.message, color: Colors.red)
           )
           .onError((error, stackTrace) => showExceptionDialog(context: context, title: 'Exception', content: error.toString(), actionText: 'close'))

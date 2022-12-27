@@ -45,7 +45,7 @@ Future<void> showSnackBar({
 }) async {
   final snackBar = SnackBar(
     backgroundColor: color,
-    duration: const Duration(seconds: 10),
+    duration: const Duration(seconds: 4),
     content: Text(message, style: const TextStyle(fontSize: 15.0),),
     action: SnackBarAction(label: 'Close', onPressed: (){}),
   );
