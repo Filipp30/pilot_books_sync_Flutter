@@ -17,14 +17,14 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   void initState() {
-    super.initState();
     setState(()=> _isLoading = true);
     _autoLogin();
+    super.initState();
   }
 
   Future<void> _autoLogin() async {
-    final _auth = Provider.of<AuthProvider>(context, listen: false);
-    await _auth.tryAutoLogin();
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    await auth.tryAutoLogin();
     setState(()=> _isLoading = false);
   }
 

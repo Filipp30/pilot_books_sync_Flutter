@@ -58,7 +58,33 @@ class _AuthRegistrationWidgetState extends State<AuthRegistrationWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold( appBar: AppBar( title: const Text('Registration')),
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      leading: TextButton.icon(
+          onPressed: () => widget.callBack(),
+          icon: const Icon(Icons.login, color: Colors.white),
+          label: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 16),)
+      ),
+      leadingWidth: 90,
+      toolbarHeight: 120,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(180)),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[Colors.black, Colors.blue]
+          ),
+        ),
+      ),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(0),
+            bottomRight: Radius.circular(170),
+
+          )
+      ),
+    ),
 
     body: _isProcessing
       ? const Center(child: CircularProgressIndicator())
@@ -139,13 +165,7 @@ class _AuthRegistrationWidgetState extends State<AuthRegistrationWidget> {
             icon: const Icon(Icons.app_registration),
             label: const Text('Register'),
             onPressed: () => _submit()
-          ), _sizedBox(),
-
-          TextButton.icon(
-              icon: const Icon(Icons.login),
-              label: const Text('Login'),
-              onPressed: () => widget.callBack()
-          ),
+          )
 
         ]),
       ),

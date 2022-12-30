@@ -16,24 +16,22 @@ class AuthProvider with ChangeNotifier {
     if (!prefs.containsKey('token')) {
       isAuthenticated = false;
       notifyListeners();
-      return;
-    }
-    final response = await ApiClient().get(endpoint: Endpoint.user);
+    } else {
+      final response = await ApiClient().get(endpoint: Endpoint.user);
 
-    if (response.statusCode == 401) {
-      prefs.remove('token');
-      prefs.clear();
-      isAuthenticated = false;
-      notifyListeners();
-      return;
-    }
-    if (response.statusCode == 200) {
-      isAuthenticated = true;
-      notifyListeners();
-      return;
-    }
+      if (response.statusCode == 401) {
+        prefs.remove('token');
+        prefs.clear();
+        isAuthenticated = false;
+        notifyListeners();
 
-    throw Exception('AutoLogin failed.');
+      } else if (response.statusCode == 200) {
+        isAuthenticated = true;
+        notifyListeners();
+      }
+
+      throw Exception('AutoLogin failed.');
+    }
   }
 
   Future<RegistrationResponseDto> registration(UserRegistrationDto dto) async {
@@ -64,7 +62,6 @@ class AuthProvider with ChangeNotifier {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     final response = await ApiClient().get(endpoint: Endpoint.logout);
-
     if (response.statusCode == 401 || response.statusCode == 200) {
       prefs.remove('token');
       prefs.clear();

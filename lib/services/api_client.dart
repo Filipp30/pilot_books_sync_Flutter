@@ -7,18 +7,20 @@ enum Endpoint {
   login,
   logout,
   user,
+  getPilotBookAll
 }
 
 class ApiClient {
 
   static final Map<Endpoint, String> _paths = {
-    Endpoint.authRegistration: 'auth/registration',
-    Endpoint.login: 'auth/login',
-    Endpoint.logout: 'auth/logout',
-    Endpoint.user: 'auth/user'
+    Endpoint.authRegistration: 'api/auth/registration',
+    Endpoint.login: 'api/auth/login',
+    Endpoint.logout: 'api/auth/logout',
+    Endpoint.user: 'api/auth/user',
+    Endpoint.getPilotBookAll: 'api/book/get-all'
   };
 
-  static const String _host = 'https://da56-212-239-155-71.ngrok.io/api/';
+  static const String _host = 'https://da56-212-239-155-71.ngrok.io/';
 
   Future<dynamic> post({required Endpoint endpoint, required Map<String, String> body}) async {
     final Uri url = Uri.parse(_host + _paths[endpoint]!);
@@ -44,9 +46,14 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> get({required Endpoint endpoint}) async {
-    final Uri url = Uri.parse(_host + _paths[endpoint]!);
+  Future<dynamic> get({required Endpoint endpoint, Map<String, dynamic>? params}) async {
 
+    Uri url = Uri.parse(_host + _paths[endpoint]!);
+    if (params != null) {
+      url = Uri.https('da56-212-239-155-71.ngrok.io', _paths[endpoint]!, params);
+    }
+
+    print(url);
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
 
@@ -56,7 +63,7 @@ class ApiClient {
           headers: {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token'
-          }
+          },
       );
     } on SocketException catch(_) {
       throw Exception('Problem with internet connection');

@@ -6,7 +6,7 @@ import '../../providers/auth_provider.dart';
 import '../functions/notifications.dart';
 
 class AuthLoginWidget extends StatefulWidget {
-  final callBack;
+  final Function callBack;
   AuthLoginWidget({required this.callBack});
 
   @override
@@ -33,11 +33,39 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold( appBar: AppBar( title: const Text('Login')),
+  Widget build(BuildContext context) => Scaffold(
+    
+    appBar: AppBar(
+      leading: TextButton.icon(
+          onPressed: () => widget.callBack(),
+          icon: const Icon(Icons.app_registration, color: Colors.white),
+          label: const Text('Registration', style: TextStyle(color: Colors.white, fontSize: 16),)
+      ),
+      leadingWidth: 150,
+      toolbarHeight: 120,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(180)),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[Colors.black, Colors.blue]
+          ),
+        ),
+      ),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(0),
+              bottomRight: Radius.circular(170),
+
+          )
+      ),
+    ),
 
     body: _isProcessing
         ? const Center(child: CircularProgressIndicator())
         : Form( key: _formKey, child: SingleChildScrollView(padding: const EdgeInsets.all(16.0), child: Column(children: <Widget>[
+
 
       TextFormField(
           controller: _emailController,
@@ -73,12 +101,6 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget> {
           icon: const Icon(Icons.login),
           label: const Text('Login'),
           onPressed: () => _submit()
-      ), _sizedBox(),
-
-      TextButton.icon(
-          icon: const Icon(Icons.app_registration_sharp),
-          label: const Text('Registration'),
-          onPressed: () => widget.callBack()
       ),
 
     ]),
